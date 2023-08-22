@@ -1,19 +1,19 @@
 import React from "react";
 
 import { Container, List } from "@mui/material";
-import { useGetPeople } from "../../hooks/useGetPeople";
 import { Item } from "./components/Item";
 import { Loader } from "../../components/Loader";
+import { usePeopleContext } from "../../context";
 
 export const Main = () => {
-  const { characters, isLoading } = useGetPeople();
+  const { characters, isLoading } = usePeopleContext();
 
   return (
     <Container>
       <Loader isLoading={isLoading} />
       <List>
-        {characters.map((character) => (
-          <Item key={character.name} name={character.name} />
+        {characters.map((character, index) => (
+          <Item key={character.name} id={index} name={character.name} />
         ))}
       </List>
     </Container>

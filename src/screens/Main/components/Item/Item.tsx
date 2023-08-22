@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 export const Item_TestID = 'Item_TestID';
 
 interface IProps {
+  id: number;
   name: string;
 }
 
-export const Item: FC<IProps> = memo(({ name }) => {
+export const Item: FC<IProps> = memo(({ id, name }) => {
   return (
-    <Link to={`/${name}`} data-testid={Item_TestID}>
+    <Link to={`/${id}`} data-testid={Item_TestID}>
       <ListItem>
         <ListItemButton>
           <ListItemText>{name}</ListItemText>

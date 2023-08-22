@@ -6,6 +6,7 @@ import { mockPeople } from "../../../__mocks__/people";
 import { Item_TestID } from "../components/Item/Item";
 import { Loader_TestId } from "../../../components/Loader/Loader";
 import { BrowserRouter } from "react-router-dom";
+import { PeopleContextProvider } from "../../../context";
 
 const spyPeople = jest.spyOn(apiPeople, "getPeople");
 
@@ -16,14 +17,22 @@ describe("Main page", () => {
 
   it("should fetch people", () => {
     spyPeople.mockReturnValue(Promise.resolve(mockPeople));
-    render(<Main />);
+    render(
+      <PeopleContextProvider>
+        <Main />
+      </PeopleContextProvider>
+    );
 
     expect(spyPeople).toHaveBeenCalledTimes(1);
   });
 
   it("should render loader", () => {
     spyPeople.mockReturnValue(Promise.resolve(mockPeople));
-    render(<Main />);
+    render(
+      <PeopleContextProvider>
+        <Main />
+      </PeopleContextProvider>
+    );
 
     expect(screen.getByTestId(Loader_TestId)).toBeInTheDocument();
   });
@@ -32,7 +41,9 @@ describe("Main page", () => {
     spyPeople.mockReturnValue(Promise.resolve(mockPeople));
     render(
       <BrowserRouter>
-        <Main />
+        <PeopleContextProvider>
+          <Main />
+        </PeopleContextProvider>
       </BrowserRouter>
     );
 

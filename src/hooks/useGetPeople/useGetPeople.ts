@@ -9,18 +9,27 @@ type TUseGetPeople = () => {
 };
 
 export const useGetPeople: TUseGetPeople = () => {
-  const [characters, setCharacters] = useState<ICharacter[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [characters, setCharacters] = useState<ICharacter[]>(
+    JSON.parse(localStorage.getItem("people") || '[]')
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    getPeople()
-      .then((data) => {
-        setCharacters(data.results);
-        setIsSuccess(false);
-      })
-      .finally(() => setIsLoading(false));
+    if (!characters.length) {
+      setIsLoading(true);
+      getPeople()
+        .then((data) => {
+          setCharacters(data.results);
+          setIsSuccess(false);
+        })
+        .finally(() => setIsLoading(false));
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("people", JSON.stringify(characters));
+  }, [characters]);
 
   return {
     characters,
